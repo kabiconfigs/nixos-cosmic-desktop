@@ -28,7 +28,7 @@
     };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, chaotic, rust-overlay, self, aagl, ... }: {
+  outputs = inputs@{ nixpkgs, home-manager, chaotic, rust-overlay, self, aagl, comin, ... }: {
     nixosConfigurations = {
       nixos-desktop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
