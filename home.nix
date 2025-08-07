@@ -326,7 +326,7 @@
 
         SanitizeOnShutdown = {
           Cache = false;
-          History = true;
+          History = false;
           Cookies = true;
           Downloads = false;
           FormData = false;
