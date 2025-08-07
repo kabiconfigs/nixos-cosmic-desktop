@@ -1,11 +1,6 @@
 { config, pkgs, lib, ... }:
 
 {
-
-  imports = [
-   ./git.nix
-  ];
-
   home = {
    username = "kabi";
    homeDirectory = "/home/kabi";
