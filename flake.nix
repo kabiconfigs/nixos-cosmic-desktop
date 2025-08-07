@@ -16,6 +16,9 @@
      url = "github:ezKEa/aagl-gtk-on-nix";
      inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    alejandra.url = "github:kamadorueda/alejandra/4.0.0";
+    alejandra.inputs.nixpkgs.follows = "nixpkgs";
     
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
@@ -28,14 +31,28 @@
     };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, chaotic, rust-overlay, self, aagl, comin, ... }: {
+  outputs = inputs@{ alejandra, nixpkgs, home-manager, chaotic, rust-overlay, self, aagl, comin, ... }: {
     nixosConfigurations = {
-      nixos-desktop = nixpkgs.lib.nixosSystem {
+      nixos-desktop = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = [
           ./configuration.nix
           chaotic.nixosModules.default
           home-manager.nixosModules.home-manager
+          {
+            environment.systemPackages = [alejandra.defaultPackage.${system}];
+          }
+          comin.nixosModules.comin
+          ({...}: {
+            services.comin = {
+              enable = true;
+              remotes = [{
+                name = "origin";
+                url = "https://github.com/kabiconfigs/nixos-cosmic-desktop.git";
+                branches.main.name = "main";
+              }];
+            };
+          })
           {
           imports = [ aagl.nixosModules.default ];
           nix.settings = aagl.nixConfig;
@@ -54,17 +71,6 @@
             environment.systemPackages = [ pkgs.rust-bin.stable.latest.default ];
             nixpkgs.config.allowUnfree = true;
             nixpkgs.config.allowUnfreePredicate = (_: true);
-          })
-          comin.nixosModules.comin
-          ({...}: {
-            services.comin = {
-              enable = true;
-              remotes = [{
-                name = "origin";
-                url = "https://github.com/kabiconfigs/nixos-cosmic-desktop.git";
-                branches.main.name = "main";
-              }];
-            };
           })
         ];
       };

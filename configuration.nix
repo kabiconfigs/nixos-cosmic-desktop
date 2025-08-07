@@ -10,7 +10,6 @@
      ./desktop.nix  
      ./hardware-configuration.nix  
      ./networking.nix
-     ./git.nix
     ];
 
   documentation.enable = false;
@@ -79,6 +78,8 @@
 
   services.flatpak.enable = true;
   services.gnome.gnome-keyring.enable = true;
+
+  programs.git.enable = true;
   
   environment.sessionVariables = {
    NIX_AUTO_RUN = "1";
