@@ -10,6 +10,7 @@
      ./desktop.nix  
      ./hardware-configuration.nix  
      ./networking.nix
+     ./git.nix
     ];
 
   documentation.enable = false;

@@ -6,7 +6,12 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
-    
+
+    comin = {
+      url = "github:nlewo/comin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };    
+
     aagl = { 
      url = "github:ezKEa/aagl-gtk-on-nix";
      inputs.nixpkgs.follows = "nixpkgs";
@@ -49,6 +54,17 @@
             environment.systemPackages = [ pkgs.rust-bin.stable.latest.default ];
             nixpkgs.config.allowUnfree = true;
             nixpkgs.config.allowUnfreePredicate = (_: true);
+          })
+          comin.nixosModules.comin
+          ({...}: {
+            services.comin = {
+              enable = true;
+              remotes = [{
+                name = "origin";
+                url = "https://github.com/kabiconfigs/nixos-cosmic-desktop.git";
+                branches.main.name = "main";
+              }];
+            };
           })
         ];
       };
